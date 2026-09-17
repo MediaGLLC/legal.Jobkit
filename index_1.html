@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Job Apply Legal</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Public+Sans:wght@400;500;600&display=swap">
+<style>
+  :root{
+    --ground:#f6f6fb; --surface:#ffffff; --ink:#1a1c2e; --muted:#5c6076;
+    --border:#e6e7ef; --accent:#4f46e5; --accent-soft:#eeecfc;
+    --sans:"Public Sans",-apple-system,system-ui,Segoe UI,Roboto,sans-serif;
+    --display:"Poppins",var(--sans);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ground:#0f1020; --surface:#181a2c; --ink:#e9eaf4; --muted:#9a9db6;
+      --border:#282a45; --accent:#8b83ff; --accent-soft:#20213a;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ground:#0f1020; --surface:#181a2c; --ink:#e9eaf4; --muted:#9a9db6;
+    --border:#282a45; --accent:#8b83ff; --accent-soft:#20213a;
+  }
+  *{box-sizing:border-box;}
+  body{background:var(--ground); color:var(--ink); font-family:var(--sans);
+    font-size:16px; line-height:1.65; margin:0;}
+  .wrap{max-width:720px; margin:0 auto; padding:16px; padding-block:56px;}
+  .brand{display:flex; align-items:center; gap:10px; font-family:var(--display);
+    font-weight:700; font-size:15px; letter-spacing:.01em; color:var(--accent); margin-bottom:28px;
+    text-decoration:none;}
+  .brand .dot{width:26px; height:26px; border-radius:7px; background:var(--accent);
+    display:flex; align-items:center; justify-content:center; color:#fff; font-size:14px; flex:0 0 auto;}
+  h1{font-family:var(--display); font-weight:700; font-size:34px; line-height:1.15;
+    letter-spacing:-.02em; margin:0 0 6px; text-wrap:balance;}
+  .updated{color:var(--muted); font-size:14px; margin:0 0 8px;}
+  .lede{font-size:17px; color:var(--ink); margin:18px 0 8px;}
+  h2{font-family:var(--display); font-weight:600; font-size:19px; letter-spacing:-.01em; margin:36px 0 8px;}
+  p{margin:0 0 14px;}
+  strong{font-weight:600;}
+  a{color:var(--accent); text-underline-offset:2px;}
+  .card{background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:22px 24px; margin-top:22px;}
+  .hubgrid{display:grid; gap:16px; margin-top:26px;}
+  .hublink{display:block; background:var(--surface); border:1px solid var(--border); border-radius:14px;
+    padding:22px 24px; text-decoration:none; color:var(--ink);}
+  .hublink:hover{border-color:var(--accent);}
+  .hublink .t{font-family:var(--display); font-weight:600; font-size:18px; color:var(--accent);}
+  .hublink .d{color:var(--muted); font-size:14.5px; margin-top:4px;}
+  hr{border:none; border-top:1px solid var(--border); margin:40px 0 0;}
+  .legalnav{display:flex; gap:18px; flex-wrap:wrap; margin-top:20px; font-size:14px;}
+  footer{color:var(--muted); font-size:13px; margin-top:20px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+<a class="brand" href="index.html"><span class="dot">&#10003;</span> Job Apply</a>
+<h1>Legal</h1>
+<p class="lede">Legal documents for the Job Apply app and the Job Apply: ATS Autofill browser extension, published by SAPIOX MG, LLC.</p>
+<div class="hubgrid">
+  <a class="hublink" href="privacy.html"><div class="t">Privacy Policy</div><div class="d">What data the app and the extension handle, and how it stays on your device.</div></a>
+  <a class="hublink" href="terms.html"><div class="t">Terms of Service</div><div class="d">The terms that apply when you use the app, the extension, and Plugin Sync.</div></a>
+</div>
+<footer>Job Apply is a product of SAPIOX MG, LLC. Contact <a href="mailto:rodderiqus@gmail.com">rodderiqus@gmail.com</a>.</footer>
+</div>
+</body>
+</html>
