@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Resume</title>
+<style>
+  :root { --pa: #1f3a5f; --pf: Georgia, 'Times New Roman', serif; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #eef0f5; color: #111; font-family: var(--pf);
+    padding: 24px 12px 60px; -webkit-text-size-adjust: 100%; }
+  .bar { max-width: 820px; margin: 0 auto 14px; display: flex; justify-content: space-between; align-items: center;
+    font: 600 13px/1.3 -apple-system, system-ui, sans-serif; color: #5a6172; }
+  .bar b { color: #4f46e5; }
+  .btn { background: #4f46e5; color: #fff; border: none; border-radius: 9px; padding: 9px 15px;
+    font: 700 13px -apple-system, system-ui, sans-serif; cursor: pointer; text-decoration: none; }
+  .paper { max-width: 820px; margin: 0 auto; background: #fff; border-radius: 10px;
+    box-shadow: 0 6px 30px rgba(20,20,50,.12); padding: 40px 46px; }
+  .r-head { text-align: center; }
+  .r-head-photo { display: flex; align-items: center; gap: 18px; text-align: left; }
+  .r-head-photo .r-head-txt { flex: 1; }
+  .r-photo { width: 92px; height: 138px; object-fit: cover; border-radius: 9px; flex: 0 0 auto; background: #eee; }
+  .r-name { font-size: 30px; font-weight: 700; letter-spacing: -.01em; }
+  .r-title { font-size: 15px; color: var(--pa); font-weight: 600; margin-top: 3px; }
+  .r-contact { font-size: 12.5px; color: #333; margin-top: 8px; }
+  .r-contact span + span::before { content: "  |  "; color: #aaa; }
+  .r-section { margin-top: 20px; }
+  .r-sec-head { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--pa); }
+  .r-rule { border: none; border-top: 1.5px solid var(--pa); margin: 4px 0 10px; }
+  .r-item { margin-bottom: 11px; }
+  .r-item-head { display: flex; justify-content: space-between; gap: 12px; align-items: baseline; }
+  .r-role { font-weight: 700; } .r-org { font-weight: 600; }
+  .r-when { font-size: 12px; color: #555; white-space: nowrap; }
+  .r-sub { font-size: 12.5px; color: #444; font-style: italic; }
+  .r-bullets { margin: 5px 0 0; padding-left: 18px; } .r-bullets li { margin-bottom: 3px; }
+  .r-skills { display: flex; flex-wrap: wrap; gap: 5px 12px; } .r-skill { font-size: 13px; }
+  .empty { max-width: 820px; margin: 40px auto; text-align: center; color: #667;
+    font: 400 16px/1.6 -apple-system, system-ui, sans-serif; }
+  @media print { body { background: #fff; padding: 0; } .bar { display: none; } .paper { box-shadow: none; border-radius: 0; max-width: none; } }
+</style>
+</head>
+<body>
+  <div class="bar" id="bar">
+    <span>Shared from <b>Job Apply: Toolkit</b></span>
+    <a class="btn" href="#" onclick="window.print();return false">Download / Print</a>
+  </div>
+  <div id="root"></div>
+<script>
+  function b64d(s){ try { return JSON.parse(decodeURIComponent(escape(atob(String(s).trim())))); } catch(e){ return null; } }
+  var esc = function(s){ return (s==null?'':String(s)).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); };
+  function cleanUrl(u){ return u ? String(u).replace(/^https?:\/\//,'').replace(/\/$/,'') : ''; }
+  function dateRange(a,b,cur){ return [a, cur?'Present':(b||'')].filter(Boolean).join(' to '); }
+  function bullets(d){ if(!d) return ''; var ls=String(d).split(/\n|•|·/).map(function(x){return x.trim();}).filter(Boolean); return ls.length?'<ul class="r-bullets">'+ls.map(function(l){return '<li>'+esc(l)+'</li>';}).join('')+'</ul>':''; }
+  function sec(t,inner){ return '<div class="r-section"><div class="r-sec-head">'+t+'</div><hr class="r-rule">'+inner+'</div>'; }
+  function contactLine(p){ var cs=[p.city,p.state].filter(Boolean).join(', ');
+    return [p.email,p.phone,cs,cleanUrl(p.linkedin),cleanUrl(p.website),cleanUrl(p.github)].filter(Boolean).map(function(x){return '<span>'+esc(x)+'</span>';}).join(''); }
+  function certList(p){ var c=p.certifications; if(typeof c==='string') c=c.split(',').map(function(x){return {name:x.trim()};}).filter(function(x){return x.name;}); return Array.isArray(c)?c:[]; }
+  function trainList(p){ var t=p.training; if(typeof t==='string') t=t.split(',').map(function(x){return {name:x.trim()};}).filter(function(x){return x.name;}); return Array.isArray(t)?t:[]; }
+  function render(p){
+    var name=[p.firstName,p.lastName].filter(Boolean).join(' ')||'Resume';
+    var headTxt='<div class="r-name">'+esc(name)+'</div>'+(p.currentTitle?'<div class="r-title">'+esc(p.currentTitle)+'</div>':'')+'<div class="r-contact">'+(contactLine(p)||'')+'</div>';
+    var h = p.photo
+      ? '<div class="r-head r-head-photo"><img class="r-photo" src="'+p.photo+'" alt=""><div class="r-head-txt">'+headTxt+'</div></div>'
+      : '<div class="r-head">'+headTxt+'</div>';
+    if(p.summary) h+=sec('Summary','<div>'+esc(p.summary)+'</div>');
+    var skills=(p.skills||'').split(',').map(function(s){return s.trim();}).filter(Boolean);
+    if(skills.length) h+=sec('Skills','<div class="r-skills">'+skills.map(function(s){return '<span class="r-skill">'+esc(s)+'</span>';}).join('')+'</div>');
+    var work=(p.work||[]).filter(function(w){return w.title||w.employer;});
+    if(work.length) h+=sec('Experience',work.map(function(w){return '<div class="r-item"><div class="r-item-head"><div><span class="r-role">'+esc(w.title||'')+'</span>'+(w.employer?', <span class="r-org">'+esc(w.employer)+'</span>':'')+'</div><div class="r-when">'+esc(dateRange(w.start,w.end,w.current))+'</div></div>'+(w.location?'<div class="r-sub">'+esc(w.location)+'</div>':'')+bullets(w.description)+'</div>';}).join(''));
+    var proj=(p.projects||[]).filter(function(pr){return pr.name||pr.platform;});
+    if(proj.length) h+=sec('Projects',proj.map(function(pr){return '<div class="r-item"><div class="r-item-head"><div><span class="r-role">'+esc(pr.name||'')+'</span>'+(pr.platform?', <span class="r-org">'+esc(pr.platform)+'</span>':'')+'</div>'+(pr.url?'<div class="r-when">'+esc(cleanUrl(pr.url))+'</div>':'')+'</div>'+(pr.description?bullets(pr.description):'')+'</div>';}).join(''));
+    var edu=(p.education||[]).filter(function(e){return e.school||e.degree;});
+    if(edu.length) h+=sec('Education',edu.map(function(e){return '<div class="r-item"><div class="r-item-head"><div><span class="r-role">'+esc([e.degree,e.field].filter(Boolean).join(', '))+'</span>'+(e.school?', <span class="r-org">'+esc(e.school)+'</span>':'')+'</div><div class="r-when">'+esc(dateRange(e.start,e.end))+'</div></div>'+(e.gpa?'<div class="r-sub">GPA: '+esc(e.gpa)+'</div>':'')+'</div>';}).join(''));
+    var certs=certList(p).filter(function(c){return c.name||c.vendor;});
+    if(certs.length) h+=sec('Certifications',certs.map(function(c){return '<div class="r-item"><div class="r-item-head"><div><span class="r-role">'+esc(c.name||'')+'</span>'+(c.vendor?', <span class="r-org">'+esc(c.vendor)+'</span>':'')+'</div>'+(c.expiration?'<div class="r-when">'+esc(c.expiration)+'</div>':'')+'</div></div>';}).join(''));
+    var train=trainList(p).filter(function(t){return t.name||t.provider;});
+    if(train.length) h+=sec('Training',train.map(function(t){return '<div class="r-item"><div class="r-item-head"><div><span class="r-role">'+esc(t.name||'')+'</span>'+(t.provider?', <span class="r-org">'+esc(t.provider)+'</span>':'')+'</div>'+(t.year?'<div class="r-when">'+esc(t.year)+'</div>':'')+'</div></div>';}).join(''));
+    return h;
+  }
+  (function(){
+    var hash = location.hash.replace(/^#/,'');
+    var data = hash ? b64d(hash) : null;
+    var p = data && (data.p || data.profile || data);
+    var s = data && (data.s || data.settings) || {};
+    if(!p || (!p.firstName && !p.lastName && !(p.work||[]).length)){
+      document.getElementById('root').innerHTML = '<div class="empty">No resume to show. This page renders a resume shared from the Job Apply app.</div>';
+      document.getElementById('bar').style.visibility='hidden';
+      return;
+    }
+    if(s.accent) document.documentElement.style.setProperty('--pa', s.accent);
+    if(s.font) document.documentElement.style.setProperty('--pf', s.font);
+    var title=[p.firstName,p.lastName].filter(Boolean).join(' ');
+    if(title) document.title = title + ' — Resume';
+    document.getElementById('root').innerHTML = '<div class="paper">'+render(p)+'</div>';
+  })();
+</script>
+</body>
+</html>
